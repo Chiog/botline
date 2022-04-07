@@ -3,4 +3,3 @@ gunicorn
 flask
 requests
 bs4
-json
