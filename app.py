@@ -23,7 +23,7 @@ response = requests.get(url, params=params)
 
 if response.status_code == 200:
          
-    print(response.text)
+    #print(response.text)
     data = json.loads(response.text)
 
     location = data["records"]["location"][0]["locationName"]
@@ -74,7 +74,7 @@ def handle_message(event):
         r = (location, start_time , "到" , end_time , "的天氣狀況是" , weather_state , "，降雨機率為", rain_prob , "%，溫度狀況為" , min_tem , "度到" , max_tem ,"度")
     line_bot_api.reply_message(
         event.reply_token, #要給token才能執行
-        TextSendMessage(text= r )
+        TextSendMessage(text= r ))
 
 
 if __name__ == "__main__":
