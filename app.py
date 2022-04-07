@@ -1,5 +1,7 @@
-from flask import Flask, request, abort
-
+from flask import Flask, request, abort 
+import requests
+from bs4 import BeautifulSoup
+import json
 from linebot import (
     LineBotApi, WebhookHandler
 )
@@ -9,6 +11,32 @@ from linebot.exceptions import (
 from linebot.models import (
     MessageEvent, TextMessage, TextSendMessage,
 )
+
+url = "https://opendata.cwb.gov.tw/api/v1/rest/datastore/F-C0032-001"
+params = {
+        "Authorization": "CWB-BC84844D-BF61-4B5E-9DB2-8CAFF5C4DF3F",
+        "locationName": "臺北市",
+    }
+
+response = requests.get(url, params=params)
+    #print(response.status_code) 確認狀態
+
+if response.status_code == 200:
+         
+    print(response.text)
+    data = json.loads(response.text)
+
+    location = data["records"]["location"][0]["locationName"]
+
+    weather_elements = data["records"]["location"][0]["weatherElement"]
+    start_time = weather_elements[0]["time"][0]["startTime"]
+    end_time = weather_elements[0]["time"][0]["endTime"]
+    weather_state = weather_elements[0]["time"][0]["parameter"]["parameterName"]
+    rain_prob = weather_elements[1]["time"][0]["parameter"]["parameterName"]
+    min_tem = weather_elements[2]["time"][0]["parameter"]["parameterName"]
+        #comfort = weather_elements[3]["time"][0]["parameter"]["parameterName"]
+    max_tem = weather_elements[4]["time"][0]["parameter"]["parameterName"]
+
 
 app = Flask(__name__)
 
@@ -41,10 +69,16 @@ def handle_message(event):
     r = '無法回覆的內容'
     if msg == "hi":
         r = "hi"
+    elif msg == "天氣":
+        
+        r = (location, start_time , "到" , end_time , "的天氣狀況是" , weather_state , "，降雨機率為", rain_prob , "%，溫度狀況為" , min_tem , "度到" , max_tem ,"度")
     line_bot_api.reply_message(
         event.reply_token, #要給token才能執行
-        TextSendMessage(text=r))
+        TextSendMessage(text= r )
 
 
 if __name__ == "__main__":
     app.run()
+
+
+
