@@ -74,6 +74,7 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
+
     msg = event.message.text
     r = '無法回覆的內容'
     if msg == "hi":
@@ -82,7 +83,8 @@ def handle_message(event):
         event.reply_token, #要給token才能執行
         TextSendMessage(text= r))
     elif msg == "天氣":
-        line_bot_api.reply_message(
+        if event.source.user_id != "Udeadbeefdeadbeefdeadbeefdeadbeef":
+            line_bot_api.reply_message(
         event.reply_token, #要給token才能執行
         TextSendMessage(text= get__weather_data()))
     else:
