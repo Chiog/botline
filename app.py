@@ -46,7 +46,7 @@ def get__weather_data():
         return w
 
 
-
+#天氣做完了
 app = Flask(__name__)
 
 line_bot_api = LineBotApi('m0v5zVz8LTLNgnT8q40sTaqW8QnNPk5r/HPucZJ9lZ2BLt9B2Um/pFNsRSNJx6Mqhz1Sh3OYc/9CknSM0ONeSq8Vxh1IbQfEuqHfdtBF/+MYqRXXjzLfcJlgXEpxtItIi3pHLkVqtemwtDDqUKyeNAdB04t89/1O/w1cDnyilFU=')
