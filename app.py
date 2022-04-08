@@ -39,9 +39,9 @@ def get__weather_data():
         min_tem = weather_elements[2]["time"][0]["parameter"]["parameterName"]
         #comfort = weather_elements[3]["time"][0]["parameter"]["parameterName"]
         max_tem = weather_elements[4]["time"][0]["parameter"]["parameterName"]
-
+        w = (location + start_time + "到" + end_time + "的天氣狀況是" + weather_state + "，降雨機率為"+ rain_prob + "%，溫度狀況為" + min_tem + "度到" + max_tem +"度")
         #print(location, start_time , "到" , end_time , "的天氣狀況是" , weather_state , "，降雨機率為", rain_prob , "%，溫度狀況為" , min_tem , "度到" , max_tem ,"度")
-        w = (location, start_time , "到" , end_time , "的天氣狀況是" , weather_state , "，降雨機率為", rain_prob , "%，溫度狀況為" , min_tem , "度到" , max_tem ,"度")
+        
         #print(r)
         return w
 
@@ -83,8 +83,7 @@ def handle_message(event):
         event.reply_token, #要給token才能執行
         TextSendMessage(text= r))
     elif msg == "天氣":
-        if event.source.user_id != "Udeadbeefdeadbeefdeadbeefdeadbeef":
-            line_bot_api.reply_message(
+        line_bot_api.reply_message(
         event.reply_token, #要給token才能執行
         TextSendMessage(text= get__weather_data()))
     else:
